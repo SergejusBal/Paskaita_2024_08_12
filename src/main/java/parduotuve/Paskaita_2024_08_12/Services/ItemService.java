@@ -24,6 +24,12 @@ public class ItemService {
         else return "No authorization";
     }
 
+    public String updateItem(Item item, String authorizationHeader, String name, int id ){
+        if(item == null) return "Invalid data";
+        if(userService.userAutoLogIn(authorizationHeader,name))  return itemRepository.updateItem(item,id);
+        else return "No authorization";
+    }
+
     public Item getItemByID(int id){
         return itemRepository.getItemByID(id);
     }

@@ -31,6 +31,7 @@ public class StripeRepository {
             preparedStatement.setString(2,uuid.toString());
             preparedStatement.setString(3,uuidSecret.toString());
             preparedStatement.executeUpdate();
+
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             resultSet.next();
             payment_id = resultSet.getInt(1);

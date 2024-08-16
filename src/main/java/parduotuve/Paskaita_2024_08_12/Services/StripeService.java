@@ -32,6 +32,8 @@ public class StripeService {
     @Autowired
     private ItemService itemService;
 
+    private final String URL ="localhost";
+
     @PostConstruct
     public void init() {
         Stripe.apiKey = stripeApiKey;
@@ -48,15 +50,16 @@ public class StripeService {
     }
 
     public Session createCheckoutSession(Integer orderID) throws StripeException {
+
         UUID uuid = generateUID();
         UUID uuidSecret = generateUID();
         int payment_id = createPayment(uuid,uuidSecret,orderID);
 
         Long orderPrice = calculateOrderPrice(orderID);
-        String OrderCurrency = "usd";
+        String OrderCurrency = "EUR";
 
-        String successUrl = "http://localhost:8080/stripe/" + uuid + "/" + uuidSecret + "/" + payment_id;
-        String cancelUrl = "http://localhost:8080/stripe/" + uuid + "/" + payment_id;
+        String successUrl = "http://"+URL+":8080/stripe/" + uuid + "/" + uuidSecret + "/" + payment_id;
+        String cancelUrl = "http://"+URL+":8080/stripe/" + uuid + "/" + payment_id;
 
         Map<String, String> metadata = new HashMap<>();
         metadata.put("uuid", uuid.toString());
@@ -71,7 +74,7 @@ public class StripeService {
                                 .setCurrency(OrderCurrency)
                                 .setUnitAmount(orderPrice)
                                 .setProductData(SessionCreateParams.LineItem.PriceData.ProductData.builder()
-                                        .setName("One time post")
+                                        .setName("Moketi")
                                         .build())
                                 .build())
                         .build())
@@ -105,7 +108,7 @@ public class StripeService {
 
         Gson gson = new Gson();
 
-        return  gson.fromJson(jsonItemString, Item[].class);
+        return gson.fromJson(jsonItemString, Item[].class);
     }
 
     private Long calculateOrderPrice(int orderID){

@@ -28,6 +28,16 @@ public class ItemController {
         if(status == HttpStatus.OK) return new ResponseEntity<>(true, status);
         else return new ResponseEntity<>(false, status);
     }
+    @PostMapping("/new/{name}/{id}")
+    public ResponseEntity<Boolean> updateItem(@RequestBody(required = false) Item item, @RequestHeader("Authorization") String authorizationHeader, @PathVariable String name, @PathVariable int id) {
+
+        String response = itemService.updateItem(item,authorizationHeader,name,id);
+        HttpStatus status = checkHttpStatus(response);
+
+        if(status == HttpStatus.OK) return new ResponseEntity<>(true, status);
+        else return new ResponseEntity<>(false, status);
+    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<Item> getItemByID(@PathVariable int id) {
@@ -49,6 +59,8 @@ public class ItemController {
 
 
 
+
+
     private HttpStatus checkHttpStatus(String response){
 
         switch (response){
@@ -58,7 +70,7 @@ public class ItemController {
                 return HttpStatus.INTERNAL_SERVER_ERROR;
             case "Invalid data":
                 return HttpStatus.BAD_REQUEST;
-            case "Item was successfully added","user authorize":
+            case "Item was successfully added","user authorize","Item was successfully updated":
                 return HttpStatus.OK;
             default:
                 return HttpStatus.NOT_IMPLEMENTED;

@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 import parduotuve.Paskaita_2024_08_12.Models.Filter;
 import parduotuve.Paskaita_2024_08_12.Models.Item;
+import parduotuve.Paskaita_2024_08_12.Models.Order;
 import parduotuve.Paskaita_2024_08_12.Models.User;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Repository
@@ -81,10 +83,42 @@ public class ItemRepository {
         return item;
     }
 
+    public String updateItem(Item item, int id){
+
+        if(item.getName() == null || item.getPrice() == 0) return "Invalid data";
+
+        String sql = "UPDATE item SET name = ?, description = ?, price = ?, category = ?, imageUrl = ? WHERE id = ?";
+
+        try {
+            Connection connection = DriverManager.getConnection(url, username, password);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setString(1,item.getName());
+            preparedStatement.setString(2,item.getDescription());
+            preparedStatement.setDouble(3,item.getPrice());
+            preparedStatement.setString(4,item.getCategory());
+            preparedStatement.setString(5,item.getImageUrl());
+            preparedStatement.setInt(6,id);
+
+            preparedStatement.executeUpdate();
+
+            preparedStatement.close();
+            connection.close();
+
+        }catch (SQLException e) {
+
+            System.out.println(e.getMessage());
+            return "Database connection failed";
+
+        }
+
+        return "Item was successfully updated";
+    }
+
     public List<Item> getAllItems(int offset , int limit, Filter filter){
 
         List<Item> itemList = new ArrayList<>();
-        String sql = "SELECT * FROM item LIMIT ? OFFSET ?";
+        String sql = "SELECT * FROM item ORDER BY id DESC LIMIT ? OFFSET ?";
 
         try {
             Connection connection = DriverManager.getConnection(url, username, password);
@@ -130,7 +164,7 @@ public class ItemRepository {
 
             if(!resultSet.next()) return price;
 
-            price =resultSet.getDouble(1);
+            price = resultSet.getDouble(1);
 
 
         }catch (SQLException e) {
