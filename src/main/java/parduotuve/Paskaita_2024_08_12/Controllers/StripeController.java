@@ -44,12 +44,12 @@ public class StripeController {
     @GetMapping("/{uuid}/{uuidSecret}/{id}")
     public RedirectView redirect(@PathVariable String uuid, @PathVariable String uuidSecret,@PathVariable int id) {
         stripeService.setPaymentStatus(id,uuid,uuidSecret);
-        return new RedirectView("http://127.0.0.1:5500/");
+        return new RedirectView("http://127.0.0.1:5500/succes.html");
     }
     @GetMapping("/{uuid}/{id}")
     public RedirectView redirect(@PathVariable String uuid,@PathVariable int id) {
         stripeService.setPaymentStatus(id,uuid,null);
-        return new RedirectView("http://127.0.0.1:5500/");
+        return new RedirectView("http://127.0.0.1:5500/fail.html");
     }
 
 }
