@@ -14,11 +14,15 @@ public class WebConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("*") // Allow all origins
-                        .allowedOrigins("http://localhost:3000", "http://127.0.0.1:5500/","http://localhost:7778/","http://127.0.0.1:7778/") // Specific origins if needed
-                        .allowedMethods("GET", "POST")
-                        .allowedHeaders("*")
-                        .allowCredentials(false); // Pastatyti true jei reikes tiksliu adresu
+                        .allowedOrigins(
+                                "http://localhost:3000",
+                                "http://127.0.0.1:5500",
+                                "http://localhost:7778",
+                                "http://127.0.0.1:7778"
+                        ) // List specific origins
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Allow more HTTP methods as needed
+                        .allowedHeaders("*") // Allow all headers
+                        .allowCredentials(true); // Allow credentials if necessary
             }
         };
     }
