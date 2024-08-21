@@ -18,7 +18,7 @@ public class WebConfig {
                         .allowedOrigins("http://localhost:3000", "http://127.0.0.1:5500/","http://localhost:7778/") // Specific origins if needed
                         .allowedMethods("GET", "POST")
                         .allowedHeaders("*")
-                        .allowCredentials(true); // Pastatyti true jei reikes tiksliu adresu
+                        .allowCredentials(false); // Pastatyti true jei reikes tiksliu adresu
             }
         };
     }
