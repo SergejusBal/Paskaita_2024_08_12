@@ -10,7 +10,7 @@ import parduotuve.Paskaita_2024_08_12.Services.UserService;
 import java.util.HashMap;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:3000", "http://127.0.0.1:5500","http://localhost:7778/"})
+@CrossOrigin(origins = {"http://localhost:3000", "http://127.0.0.1:5500","http://localhost:7778/","http://127.0.0.1:7778/"})
 @RequestMapping("/user")
 public class UserController {
 
