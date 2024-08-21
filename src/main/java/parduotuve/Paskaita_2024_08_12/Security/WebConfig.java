@@ -22,7 +22,7 @@ public class WebConfig {
                         ) // List specific origins
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Allow more HTTP methods as needed
                         .allowedHeaders("*") // Allow all headers
-                        .allowCredentials(true); // Allow credentials if necessary
+                        .allowCredentials(false); // Allow credentials if necessary
             }
         };
     }
